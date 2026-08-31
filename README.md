@@ -2,19 +2,19 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-Flask-blue?logo=flask" alt="Flask">
-  <img src="https://img.shields.io/badge/Redis-Cache%20Database-red?logo=redis" alt="Redis">
+  <img src="https://img.shields.io/badge/Redis-Database-red?logo=redis" alt="Redis">
   <img src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker" alt="Docker">
 </p>
 
-A practical DevOps project demonstrating how to containerize a **Flask web application**, connect it with **Redis**, and manage both services using **Docker Compose**.
+A practical DevOps project demonstrating how to containerize a **Flask web application**, connect it with **Redis**, and manage multiple services using **Docker Compose**.
 
-The application includes a simple **visitor counter** that stores the number of visits using Redis.
+The application includes a simple visitor counter that stores the number of requests using Redis.
 
 ---
 
 # 📌 Project Overview
 
-The project demonstrates the following workflow:
+The project workflow:
 
 ```text
 Flask Application
@@ -29,7 +29,7 @@ Redis Container
 Docker Compose
         |
         ↓
-Development with Bind Mount Volume
+Bind Mount Development
         |
         ↓
 Live Code Updates
@@ -40,12 +40,12 @@ Live Code Updates
 # ✨ Features
 
 - Flask web application
-- Redis integration for storing visitor count
-- Dockerized application
-- Multi-container setup using Docker Compose
-- Development workflow using bind mount volume
+- Redis integration
+- Dockerized deployment
+- Multi-container environment using Docker Compose
+- Visitor counter using Redis
+- Bind mount volume for development
 - Flask debug mode for automatic reload
-- Persistent application changes without rebuilding the image
 
 ---
 
@@ -80,7 +80,7 @@ flask-redis-docker-compose/
     ├── docker-compose-bind-mount.png
     ├── flask-app-code-initial.png
     ├── flask-app-code-updated.png
-    ├── browser-before-change-first-request.png
+    ├── browser-first-request.png
     ├── browser-after-change-first-request.png
     ├── browser-after-change-hit-counter.png
     ├── redis-hit-counter-demo.png
@@ -91,7 +91,7 @@ flask-redis-docker-compose/
 
 # 🐳 Dockerfile
 
-The application uses a Python container to run Flask.
+The application runs inside a Python container.
 
 ```dockerfile
 FROM python:3.9-slim
@@ -107,25 +107,25 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
-## Dockerfile Explanation
-
-| Instruction | Description |
-|---|---|
-| `FROM` | Uses Python as the base image |
-| `WORKDIR` | Sets the application directory |
-| `COPY` | Copies project files into the container |
-| `RUN` | Installs Python dependencies |
-| `CMD` | Starts the Flask application |
-
 <p align="center">
   <img src="screenshots/flask-dockerfile.png" width="850">
 </p>
+
+### Dockerfile Explanation
+
+| Instruction | Description |
+|---|---|
+| FROM | Defines the base Python image |
+| WORKDIR | Sets the application directory |
+| COPY | Copies project files |
+| RUN | Installs dependencies |
+| CMD | Starts Flask application |
 
 ---
 
 # 📦 Python Dependencies
 
-The application requirements:
+The application uses:
 
 ```text
 Flask
@@ -138,22 +138,22 @@ redis
 
 ---
 
-# 🔗 Docker Compose Setup
+# 🔗 Docker Compose
 
 The project contains two services:
 
-### Flask Service
+## Flask Service
 
 - Runs the web application
-- Exposes port `9000`
-- Connects to Redis
+- Exposes the application port
+- Communicates with Redis
 
-### Redis Service
+## Redis Service
 
 - Stores the visitor counter
-- Runs using the official Redis image
+- Uses the official Redis image
 
-Initial setup:
+Initial Docker Compose setup:
 
 <p align="center">
   <img src="screenshots/docker-compose-basic.png" width="850">
@@ -161,9 +161,9 @@ Initial setup:
 
 ---
 
-# 🚀 Build and Run the Project
+# 🚀 Run the Project
 
-## 1. Clone Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/adhamgebely/flask-redis-docker-compose.git
@@ -177,7 +177,7 @@ cd flask-redis-docker-compose
 
 ---
 
-## 2. Build Containers
+## Build Images
 
 ```bash
 docker compose build
@@ -185,7 +185,7 @@ docker compose build
 
 ---
 
-## 3. Start Services
+## Start Services
 
 ```bash
 docker compose up
@@ -205,7 +205,7 @@ Successful build:
 
 ---
 
-# 🌐 Access the Application
+# 🌐 Open Application
 
 Open:
 
@@ -213,13 +213,11 @@ Open:
 http://localhost:9000
 ```
 
-The application displays the visitor count stored in Redis.
-
 ---
 
 # 🔢 Redis Hit Counter
 
-Every request increases the counter stored inside Redis.
+Each request increases the counter stored in Redis.
 
 Example:
 
@@ -242,17 +240,15 @@ Check running containers:
 docker ps
 ```
 
-Example:
-
 <p align="center">
   <img src="screenshots/running-containers.png" width="850">
 </p>
 
 ---
 
-# 🔄 Development Workflow (Bind Mount)
+# 🔄 Development Workflow with Bind Mount
 
-During development, a bind mount volume was added:
+During development, a bind mount was added:
 
 ```yaml
 volumes:
@@ -270,29 +266,30 @@ environment:
   <img src="screenshots/docker-compose-bind-mount.png" width="850">
 </p>
 
-## Why use a Bind Mount?
+## Why Use Bind Mount?
 
-The bind mount connects the project folder on the host machine with the application folder inside the container.
+The bind mount connects the local project directory with the container directory.
 
-This allows:
+Benefits:
 
-- Editing Python files directly on the host machine
-- Seeing changes inside the container immediately
-- Avoiding rebuilding the Docker image after every code modification
-
-This creates a faster development workflow.
+- Modify Python files without rebuilding the image
+- Changes appear immediately inside the container
+- Faster development workflow
+- Easier debugging
 
 ---
 
 # 📝 Code Update Example
 
-Initial Flask code:
+## Initial Flask Code
 
 <p align="center">
   <img src="screenshots/flask-app-code-initial.png" width="850">
 </p>
 
-After modifying the Flask message:
+---
+
+## Updated Flask Code
 
 <p align="center">
   <img src="screenshots/flask-app-code-updated.png" width="850">
@@ -305,14 +302,14 @@ After modifying the Flask message:
 ## Before Code Change
 
 <p align="center">
-  <img src="screenshots/browser-before-change-first-request.png" width="850">
+  <img src="screenshots/browser-first-request.png" width="850">
 </p>
 
 ---
 
 ## After Code Change
 
-The container automatically detects the code update because of the bind mount and Flask debug mode.
+The application detects the code update automatically because of the bind mount and Flask debug mode.
 
 First request after update:
 
@@ -328,33 +325,33 @@ Visitor counter after multiple requests:
 
 ---
 
-# 📋 Useful Docker Commands
+# 📋 Useful Commands
 
-## Show running containers
+Check containers:
 
 ```bash
 docker ps
 ```
 
-## View logs
+View logs:
 
 ```bash
 docker compose logs
 ```
 
-## Stop services
+Stop services:
 
 ```bash
 docker compose down
 ```
 
-## Rebuild containers
+Rebuild:
 
 ```bash
 docker compose build
 ```
 
-## Start containers in background
+Start in background:
 
 ```bash
 docker compose up -d
@@ -364,7 +361,7 @@ docker compose up -d
 
 # 🧹 Cleanup
 
-Remove stopped containers:
+Remove unused containers:
 
 ```bash
 docker container prune
@@ -376,7 +373,7 @@ Remove unused images:
 docker image prune
 ```
 
-Remove unused Docker resources:
+Clean Docker resources:
 
 ```bash
 docker system prune
@@ -384,16 +381,16 @@ docker system prune
 
 ---
 
-# 🎯 What I Learned
+# 🎯 Learning Objectives
 
 Through this project:
 
-- Built a Flask application container
+- Containerized a Flask application
 - Connected Flask with Redis
-- Managed multiple containers using Docker Compose
+- Managed multiple services using Docker Compose
+- Learned Docker networking
 - Used bind mounts for development
 - Implemented live code updates
-- Learned Docker networking between services
 - Managed application lifecycle with Docker commands
 
 ---
